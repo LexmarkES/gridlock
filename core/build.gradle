@@ -1,0 +1,51 @@
+/*
+ * Copyright 2016 Lexmark International Technology S.A.  All rights reserved.
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ */
+
+apply plugin: 'java'
+apply plugin: 'groovy'
+
+dependencies {
+    compile 'org.codehaus.groovy:groovy:2.4.3'
+    compile 'com.google.guava:guava:16.0.1'
+    compile 'org.slf4j:slf4j-api:1.7.6'
+
+    testCompile group: 'junit', name:'junit', version:'4.10'
+    testRuntime 'ch.qos.logback:logback-core:1.1.1'
+    testRuntime 'ch.qos.logback:logback-classic:1.1.1'
+}
+
+compileJava {
+    options.encoding = 'UTF-8'
+}
+
+test {
+    useJUnit()
+}
+
+jar {
+    manifest {
+        attributes 'Implementation-Title': 'Gridlock Core', 'Implementation-Version': version
+
+        excludes.addAll(["META-INF\\**\\*.SF", "META-INF\\**\\*.RSA"])
+    }
+
+    inputs.files configurations.runtime
+}
+
+jar.doFirst {
+    from configurations.runtime.collect { it.isDirectory() ? it : zipTree(it) }
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+build.dependsOn(sourcesJar)
+
+artifacts {
+    archives sourcesJar
+}

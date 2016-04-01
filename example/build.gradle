@@ -1,0 +1,17 @@
+/*
+ * Copyright 2016 Lexmark International Technology S.A.  All rights reserved.
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ */
+
+apply plugin: 'java'
+apply plugin: 'groovy'
+
+compileJava {
+    options.encoding = 'UTF-8'
+}
+
+dependencies {
+    compile project(':core')
+    compile 'org.slf4j:slf4j-simple:1.7.6'
+}

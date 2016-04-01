@@ -1,0 +1,47 @@
+/*
+ * Copyright 2016 Lexmark International Technology S.A.  All rights reserved.
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ */
+
+apply plugin: 'idea'
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.2'
+}
+
+def projectVersion = '4.0.2'
+def projectGroup = 'com.lexmark.gridlock'
+
+version projectVersion
+group projectGroup
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+}
+
+subprojects {
+    apply plugin: 'idea'
+    apply plugin: 'project-report'
+    apply plugin: 'maven-publish'
+
+    //project properties
+    group projectGroup
+    version projectVersion
+
+    repositories {
+        mavenCentral()
+    }
+}
+
+task writeProperties << {
+    def props = new Properties()
+    props.PRODUCT_NAME = project.name
+    props.PRODUCT_VERSION = project.version
+
+    new File('envVars.properties').withWriter { writer ->
+        props.store(writer, null)
+    }
+}
