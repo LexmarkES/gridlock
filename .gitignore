@@ -1,0 +1,20 @@
+# Created by .ignore support plugin (hsz.mobi)
+
+# IntelliJ Idea
+.idea/
+*.iml
+
+# Gradle cache
+.gradle/
+
+# Build folders
+**/build/
+classes/
+build/
+
+# Metrics file
+**/metrics.tsv
+# Gridlock Trace files
+**/*-trace.log
+
+notice.txt
