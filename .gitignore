@@ -18,3 +18,15 @@ build/
 **/*-trace.log
 
 notice.txt
+
+target/*
+/target/
+.metadata
+.classpath
+.project
+*/.settings/
+.settings
+out/
+*.ipr
+*.iws
+.DS_STORE
