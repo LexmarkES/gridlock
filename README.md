@@ -50,7 +50,7 @@ uci: 1|A   B   C   D   E
      7|                  A   B   C   D   E
      8|                     A   B   C   D   E
      9|...
-time:  0  2  4  6  8  0  2  4  6  8  2  4  6  8
+time:  0  2  4  6  8  0  2  4  6  8  0  2  4  6
 ```
 The result of Configuration B achieves the same actions per minute of Configuration A but increases concurrency to ~7.5.
 
