@@ -6,6 +6,10 @@
 
 apply plugin: 'java'
 apply plugin: 'groovy'
+apply plugin: 'maven'
+apply plugin: 'signing'
+
+archivesBaseName = "gridlock-core"
 
 dependencies {
     compile 'org.codehaus.groovy:groovy:2.4.3'
@@ -44,8 +48,64 @@ task sourcesJar(type: Jar, dependsOn: classes) {
     from sourceSets.main.allSource
 }
 
-build.dependsOn(sourcesJar)
+task javadocJar(type: Jar) {
+    classifier = 'javadoc'
+    from javadoc
+}
 
 artifacts {
-    archives sourcesJar
+    archives sourcesJar, javadocJar
 }
+
+signing {
+    sign configurations.archives
+}
+
+build.dependsOn(sourcesJar, javadocJar)
+
+
+//maven central / sonatype config
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                authentication(userName: ossrhUsername, password: ossrhPassword)
+            }
+
+            snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+                authentication(userName: ossrhUsername, password: ossrhPassword)
+            }
+
+            pom.project {
+                name 'Gridlock'
+                packaging 'jar'
+                description 'A load driver framework.'
+                url 'http://GitHub.com/Lexmark/gridlock'
+
+                scm {
+                    url 'scm:git@github.com:Lexmark/gridlock.git'
+                    connection 'scm:git@github.com:Lexmark/gridlock.git'
+                    developerConnection 'scm:git@github.com:Lexmark/gridlock.git'
+                }
+
+                licenses {
+                    license {
+                        name 'Mozilla Public License, v. 2.0'
+                        url 'http://mozilla.org/MPL/2.0/'
+                    }
+                }
+
+                developers {
+                    developer {
+                        id 'lexmark-benmarks'
+                        name 'Ben Marks'
+                        email 'ben.marks@lexmark.com'
+                    }
+                }
+            }
+        }
+    }
+}
+
