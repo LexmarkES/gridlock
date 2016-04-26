@@ -10,7 +10,7 @@ task wrapper(type: Wrapper) {
     gradleVersion = '2.2'
 }
 
-def projectVersion = '4.0.2'
+def projectVersion = '4.0.3'
 def projectGroup = 'com.lexmark.gridlock'
 
 version projectVersion
